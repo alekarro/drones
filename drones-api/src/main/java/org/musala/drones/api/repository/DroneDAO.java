@@ -15,4 +15,5 @@ public interface DroneDAO {
     boolean isDroneExists(final String serialNumber);
     int findBatteryLevel(final String serialNumber);
     List<DroneStateDTO> getAvailableDrones(final int minBatteryLevel, final Set<String> availableStates);
+    void auditDronesState();
 }

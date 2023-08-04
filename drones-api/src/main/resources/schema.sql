@@ -43,3 +43,9 @@ CREATE TABLE IF NOT EXISTS loading (
         ON DELETE CASCADE
         ON UPDATE NO ACTION
 );
+
+CREATE TABLE IF NOT EXISTS audit_drone (
+    serial_number VARCHAR(100) NOT NULL,
+    battery_level INTEGER NOT NULL,
+    date TIMESTAMP DEFAULT NOW()
+);

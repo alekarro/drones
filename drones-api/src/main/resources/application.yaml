@@ -15,3 +15,6 @@ spring:
 drone:
   battery-limit: 25
   weight-limit: 500
+audit:
+  cron:
+    drone: 0 0/2 * * * *

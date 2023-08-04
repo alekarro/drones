@@ -36,6 +36,25 @@ Content-Type: application/json
   ]
 }
 
+### Exceeded weight
+POST http://localhost:8080/loading
+Accept: application/json
+Content-Type: application/json
+
+{
+  "droneSerialNumber" : "number_1",
+  "loadingItems" : [
+    {
+      "medicationCode" : "MED_1",
+      "quantity" : 2
+    },
+    {
+      "medicationCode" : "MED_2",
+      "quantity" : 500
+    }
+  ]
+}
+
 ###
 POST http://localhost:8080/loading
 Accept: application/json

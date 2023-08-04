@@ -119,4 +119,10 @@ public class DroneDAOImpl implements DroneDAO {
         }
         return isFirstField;
     }
+
+    @Override
+    public void auditDronesState() {
+        String query = "insert into audit_drone (serial_number, battery_level) select serial_number, battery_level from drone_state";
+        jdbcTemplate.update(query);
+    }
 }
