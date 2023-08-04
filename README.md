@@ -10,7 +10,8 @@
 ### Introduction
 
 There is a major new technology that is destined to be a disruptive force in the field of transportation: **the drone**. 
-Just as the mobile phone allowed developing countries to leapfrog older technologies for personal communication, the drone has the potential to leapfrog traditional transportation infrastructure.
+Just as the mobile phone allowed developing countries to leapfrog older technologies for personal communication, 
+the drone has the potential to leapfrog traditional transportation infrastructure.
 
 Useful drone functions include delivery of small items that are (urgently) needed in locations with difficult access.
 
@@ -18,7 +19,8 @@ Useful drone functions include delivery of small items that are (urgently) neede
 
 ### Task description
 
-We have a fleet of **10 drones**. A drone is capable of carrying devices, other than cameras, and capable of delivering small loads. For our use case **the load is medications**.
+We have a fleet of **10 drones**. A drone is capable of carrying devices, other than cameras, and capable of delivering small loads. 
+For our use case **the load is medications**.
 
 A **Drone** has:
 - serial number (100 characters max);
@@ -33,14 +35,16 @@ Each **Medication** has:
 - code (allowed only upper case letters, underscore and numbers);
 - image (picture of the medication case).
 
-Develop a service via REST API that allows clients to communicate with the drones (i.e. **dispatch controller**). The specific communicaiton with the drone is outside the scope of this task. 
+Develop a service via REST API that allows clients to communicate with the drones (i.e. **dispatch controller**). 
+The specific communicaiton with the drone is outside the scope of this task. 
 
 The service should allow:
 - registering a drone;
+- check drone battery level for a given drone;
+
 - loading a drone with medication items;
 - checking loaded medication items for a given drone; 
 - checking available drones for loading;
-- check drone battery level for a given drone;
 
 > Feel free to make assumptions for the design approach. 
 

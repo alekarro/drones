@@ -1,0 +1,54 @@
+###
+POST http://localhost:8080/drone
+Accept: application/json
+Content-Type: application/json
+
+{
+    "serialNumber" : "number_1",
+    "model" : "LIGHTWEIGHT",
+    "weightLimit" : 450
+}
+
+### wrong data
+POST http://localhost:8080/drone
+Accept: application/json
+Content-Type: application/json
+
+{
+  "serialNumber" : "number_wrong",
+  "model" : "WRONG_MODEL",
+  "weightLimit" : 200,
+  "batteryCapacity" : 100
+}
+
+###
+GET http://localhost:8080/drone/battery-allowable
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code" : "number_1"
+}
+
+###
+PUT http://localhost:8080/drone/state
+Accept: application/json
+Content-Type: application/json
+
+{
+  "serialNumber" : "number_1",
+  "batteryLevel" : 100,
+  "state" : "IDLE"
+}
+
+###
+POST http://localhost:8080/drone
+Accept: application/json
+Content-Type: application/json
+
+{
+  "serialNumber": "number_2",
+  "model": "CRUISERWEIGHT",
+  "weightLimit": 490,
+  "batteryLevel": 50
+}

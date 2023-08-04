@@ -1,0 +1,85 @@
+###
+POST http://localhost:8080/loading
+Accept: application/json
+Content-Type: application/json
+
+{
+    "droneSerialNumber" : "number_1",
+    "loadingItems" : [
+        {
+          "medicationCode" : "MED_1",
+          "quantity" : 2
+        },
+        {
+          "medicationCode" : "MED_2",
+          "quantity" : 5
+        }
+    ]
+}
+
+###
+POST http://localhost:8080/loading
+Accept: application/json
+Content-Type: application/json
+
+{
+  "droneSerialNumber" : "number_2",
+  "loadingItems" : [
+    {
+      "medicationCode" : "MED_1",
+      "quantity" : 3
+    },
+    {
+      "medicationCode" : "MED_2",
+      "quantity" : 5
+    }
+  ]
+}
+
+###
+POST http://localhost:8080/loading
+Accept: application/json
+Content-Type: application/json
+
+{
+  "droneSerialNumber" : "number_1",
+  "loadingItems" : [
+    {
+      "medicationCode" : "MED_2",
+      "quantity" : 2
+    }
+  ]
+}
+
+###
+GET http://localhost:8080/loading
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code" : "number_1"
+}
+
+###
+GET http://localhost:8080/loading/available-drones
+Accept: application/json
+Content-Type: application/json
+
+
+###
+POST http://localhost:8080/loading/delivered
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code" : "number_1"
+}
+
+###
+POST http://localhost:8080/loading/delivered
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code" : "number_2"
+}

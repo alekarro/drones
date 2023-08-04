@@ -1,0 +1,17 @@
+spring:
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
+    db-batch-size: 100
+  docker:
+    compose:
+      file: ./drones-api/docker-compose.yml
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/dronesdb
+    username: postgres
+    password: p@ssw0rd
+drone:
+  battery-limit: 25
+  weight-limit: 500
