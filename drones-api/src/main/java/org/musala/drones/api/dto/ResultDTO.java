@@ -5,15 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SingleResultDTO {
+public class ResultDTO {
     Object result;
     String message;
 
-    public SingleResultDTO(Object result) {
+    public ResultDTO(Object result) {
         this.result = result;
     }
 
-    public SingleResultDTO(Object result, String message) {
+    public ResultDTO(Object result, String message) {
         this.result = result;
         this.message = message;
     }

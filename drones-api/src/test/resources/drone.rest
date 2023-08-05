@@ -4,9 +4,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "serialNumber" : "number_1",
-    "model" : "LIGHTWEIGHT",
-    "weightLimit" : 450
+  "serialNumber": "number_1",
+  "model": "LIGHTWEIGHT",
+  "weightLimit": 450
 }
 
 ### wrong data
@@ -15,10 +15,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "serialNumber" : "number_wrong",
-  "model" : "WRONG_MODEL",
-  "weightLimit" : 200,
-  "batteryCapacity" : 100
+  "serialNumber": "number_wrong",
+  "model": "WRONG_MODEL",
+  "weightLimit": 200,
+  "batteryCapacity": 100
 }
 
 ###
@@ -27,7 +27,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "code" : "number_1"
+  "code": "number_1"
 }
 
 ###
@@ -36,9 +36,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "serialNumber" : "number_1",
-  "batteryLevel" : 100,
-  "state" : "IDLE"
+  "serialNumber": "number_1",
+  "batteryLevel": 100,
+  "state": "IDLE"
 }
 
 ###

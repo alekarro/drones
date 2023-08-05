@@ -1,6 +1,8 @@
 package org.musala.drones.api.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.musala.drones.api.dto.ResultDTO;
 import org.musala.drones.api.model.Medication;
 import org.musala.drones.api.service.MedicationService;
 import org.musala.drones.api.validation.ValidationUtils;
@@ -12,17 +14,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/medication")
+@RequiredArgsConstructor
 public class MedicationController {
 
     private final MedicationService medicationService;
 
-    public MedicationController(MedicationService medicationService) {
-        this.medicationService = medicationService;
-    }
-
-    @PostMapping ("")
-    public boolean createOrUpdateDrone(@Valid @RequestBody Medication medication) {
-        return medicationService.createOrUpdateMedication(medication);
+    @PostMapping
+    public ResultDTO createOrUpdateDrone(@Valid @RequestBody Medication medication) {
+        return new ResultDTO(medicationService.createOrUpdateMedication(medication));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

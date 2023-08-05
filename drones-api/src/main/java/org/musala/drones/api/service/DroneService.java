@@ -6,6 +6,8 @@ import org.musala.drones.api.dto.WrongStateException;
 
 public interface DroneService {
     boolean createOrUpdateDrone(DroneDTO drone);
+
     boolean isBatteryLevelAllowable(final String droneSerialNumber);
+
     boolean updateDroneState(final DroneStateDTO dto) throws WrongStateException;
 }

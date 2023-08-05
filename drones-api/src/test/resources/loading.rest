@@ -4,17 +4,17 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "droneSerialNumber" : "number_1",
-    "loadingItems" : [
-        {
-          "medicationCode" : "MED_1",
-          "quantity" : 2
-        },
-        {
-          "medicationCode" : "MED_2",
-          "quantity" : 5
-        }
-    ]
+  "droneSerialNumber": "number_1",
+  "loadingItems": [
+    {
+      "medicationCode": "MED_1",
+      "quantity": 2
+    },
+    {
+      "medicationCode": "MED_2",
+      "quantity": 5
+    }
+  ]
 }
 
 ###
@@ -23,15 +23,15 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "droneSerialNumber" : "number_2",
-  "loadingItems" : [
+  "droneSerialNumber": "number_2",
+  "loadingItems": [
     {
-      "medicationCode" : "MED_1",
-      "quantity" : 3
+      "medicationCode": "MED_1",
+      "quantity": 3
     },
     {
-      "medicationCode" : "MED_2",
-      "quantity" : 5
+      "medicationCode": "MED_2",
+      "quantity": 5
     }
   ]
 }
@@ -42,15 +42,15 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "droneSerialNumber" : "number_1",
-  "loadingItems" : [
+  "droneSerialNumber": "number_1",
+  "loadingItems": [
     {
-      "medicationCode" : "MED_1",
-      "quantity" : 2
+      "medicationCode": "MED_1",
+      "quantity": 2
     },
     {
-      "medicationCode" : "MED_2",
-      "quantity" : 500
+      "medicationCode": "MED_2",
+      "quantity": 500
     }
   ]
 }
@@ -61,11 +61,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "droneSerialNumber" : "number_1",
-  "loadingItems" : [
+  "droneSerialNumber": "number_1",
+  "loadingItems": [
     {
-      "medicationCode" : "MED_2",
-      "quantity" : 2
+      "medicationCode": "MED_2",
+      "quantity": 2
     }
   ]
 }
@@ -76,7 +76,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "code" : "number_1"
+  "code": "number_1"
 }
 
 ###
@@ -91,7 +91,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "code" : "number_1"
+  "code": "number_1"
 }
 
 ###
@@ -100,5 +100,5 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "code" : "number_2"
+  "code": "number_2"
 }

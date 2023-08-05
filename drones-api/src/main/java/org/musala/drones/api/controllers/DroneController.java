@@ -1,6 +1,7 @@
 package org.musala.drones.api.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.musala.drones.api.dto.*;
 import org.musala.drones.api.service.DroneService;
 import org.musala.drones.api.validation.ValidationUtils;
@@ -12,29 +13,26 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/drone")
+@RequiredArgsConstructor
 public class DroneController {
     private final DroneService droneService;
 
-    public DroneController(DroneService droneService) {
-        this.droneService = droneService;
+    @PostMapping
+    public ResultDTO createOrUpdateDrone(@Valid @RequestBody DroneDTO drone) {
+        return new ResultDTO(droneService.createOrUpdateDrone(drone));
     }
 
-    @PostMapping ("")
-    public SingleResultDTO createOrUpdateDrone(@Valid @RequestBody DroneDTO drone) {
-        return new SingleResultDTO(droneService.createOrUpdateDrone(drone));
+    @GetMapping("/battery-allowable")
+    public ResultDTO isBatteryLevelAllowable(@Valid @RequestBody CodeDTO dto) {
+        return new ResultDTO(droneService.isBatteryLevelAllowable(dto.getCode()));
     }
 
-    @GetMapping ("/battery-allowable")
-    public SingleResultDTO isBatteryLevelAllowable(@Valid @RequestBody CodeDTO dto) {
-        return new SingleResultDTO(droneService.isBatteryLevelAllowable(dto.getCode()));
-    }
-
-    @PutMapping ("/state")
-    public SingleResultDTO updateDroneState(@Valid @RequestBody DroneStateDTO droneState) {
+    @PutMapping("/state")
+    public ResultDTO updateDroneState(@Valid @RequestBody DroneStateDTO droneState) {
         try {
-            return new SingleResultDTO(droneService.updateDroneState(droneState));
+            return new ResultDTO(droneService.updateDroneState(droneState));
         } catch (WrongStateException e) {
-            return new SingleResultDTO(false, e.getMessage());
+            return new ResultDTO(false, e.getMessage());
         }
     }
 

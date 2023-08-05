@@ -34,7 +34,8 @@ public class DroneStateDTO {
     private int weightLimit;
     private List<MedicationDTO> loadedMedications;
 
-    public DroneStateDTO() {}
+    public DroneStateDTO() {
+    }
 
     public DroneStateDTO(DroneDTO droneDTO) {
         this.serialNumber = droneDTO.getSerialNumber();

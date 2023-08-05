@@ -1,5 +1,7 @@
 package org.musala.drones.api.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.musala.drones.api.dto.DroneDTO;
 import org.musala.drones.api.dto.DroneStateDTO;
 import org.musala.drones.api.dto.WrongStateException;
@@ -12,28 +14,27 @@ import static org.musala.drones.api.model.StateEnum.IDLE;
 import static org.musala.drones.api.model.StateEnum.LOADING;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class DroneServiceImpl implements DroneService {
     private final DroneDAO droneDAO;
-
     @Value("${drone.battery-limit}")
     private int batteryLimit;
-
-    public DroneServiceImpl(DroneDAO droneDAO) {
-        this.droneDAO = droneDAO;
-    }
 
     @Override
     public boolean createOrUpdateDrone(final DroneDTO dto) {
         dto.setState(correctState(dto.getState(), dto.getBatteryLevel()));
         boolean updateDroneResult;
-        if(droneDAO.isDroneExists(dto.getSerialNumber())) {
+        if (droneDAO.isDroneExists(dto.getSerialNumber())) {
             updateDroneResult = droneDAO.updateDrone(dto);
             if (updateDroneResult) {
+                log.debug("createOrUpdateDrone# updated, dto = {}", dto);
                 return droneDAO.updateDroneState(new DroneStateDTO(dto));
             }
         } else {
             updateDroneResult = droneDAO.createDrone(dto);
             if (updateDroneResult) {
+                log.debug("createOrUpdateDrone# created, dto = {}", dto);
                 return droneDAO.createDroneState(new DroneStateDTO(dto));
             }
         }
@@ -47,15 +48,18 @@ public class DroneServiceImpl implements DroneService {
             throw new WrongStateException("Drone does not exist");
         }
         int batteryLevel = dto.getBatteryLevel() != null ? dto.getBatteryLevel()
-                :existingState.getBatteryLevel() != null ? existingState.getBatteryLevel() : 0 ;
+                : existingState.getBatteryLevel() != null ? existingState.getBatteryLevel() : 0;
         String state = dto.getState() != null ? dto.getState() : existingState.getState();
         dto.setState(correctState(state, batteryLevel));
         dto.setBatteryLevel(batteryLevel);
-        return droneDAO.updateDroneState(dto);
+        boolean res = droneDAO.updateDroneState(dto);
+        log.debug("updateDroneState# updated, dto = {}, res = {}", dto, res);
+        return res;
     }
 
     @Override
     public boolean isBatteryLevelAllowable(final String droneSerialNumber) {
+        log.debug("isBatteryLevelAllowable# ,droneSerialNumber = {}", droneSerialNumber);
         return droneDAO.findBatteryLevel(droneSerialNumber) >= batteryLimit;
     }
 

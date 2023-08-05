@@ -19,5 +19,6 @@ public @interface WeightLimitValidator {
     String message() default "Wrong weight limit";
 
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

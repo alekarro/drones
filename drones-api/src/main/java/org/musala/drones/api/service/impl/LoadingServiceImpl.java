@@ -1,5 +1,7 @@
 package org.musala.drones.api.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.musala.drones.api.dto.DroneStateDTO;
 import org.musala.drones.api.dto.LoadingDTO;
 import org.musala.drones.api.dto.LoadingException;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 import static org.musala.drones.api.model.StateEnum.*;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class LoadingServiceImpl implements LoadingService {
     private final DroneDAO droneDAO;
     private final LoadingDAO loadingDAO;
@@ -34,15 +38,10 @@ public class LoadingServiceImpl implements LoadingService {
 
     private final Set<String> availableStates = Set.of(LOADING.name());
 
-    public LoadingServiceImpl(DroneDAO droneDAO, LoadingDAO loadingDAO, MedicationDAO medicationDAO) {
-        this.droneDAO = droneDAO;
-        this.loadingDAO = loadingDAO;
-        this.medicationDAO = medicationDAO;
-    }
-
     @Override
     @Transactional
     public boolean loadDrone(LoadingDTO loading) throws LoadingException {
+        log.debug("loadDrone# started, loading = {}", loading);
         String droneCode = loading.getDroneSerialNumber();
         DroneStateDTO stateDTO = droneDAO.loadDroneState(droneCode);
         checkIfDroneReadyForLoading(stateDTO);
@@ -59,46 +58,21 @@ public class LoadingServiceImpl implements LoadingService {
 
         List<LoadingItem> newItems = new ArrayList<>();
         List<LoadingItem> updatedItems = new ArrayList<>();
-        int loadedWeight = stateDTO.getLoadedWeight();
+        int loadedWeight = stateDTO.getLoadedWeight() != null ? stateDTO.getLoadedWeight() : 0;
         for (LoadingItem item : loading.getLoadingItems()) {
             loadedWeight = loadItem(stateDTO, loadingMedicationItems, medications, newItems, updatedItems, loadedWeight, item);
         }
-
+        log.debug("loadDrone# newItems = {}, updatedItems = {}", newItems, updatedItems);
         saveData(droneCode, stateDTO, newItems, updatedItems, loadedWeight);
-
         return true;
-    }
-
-    private void saveData(
-            final String droneCode,
-            final DroneStateDTO stateDTO,
-            final List<LoadingItem> newItems,
-            final List<LoadingItem> updatedItems,
-            final int loadedWeight) throws LoadingException {
-        if(!updatedItems.isEmpty()) {
-            checkSavingResult(loadingDAO.batchUpdateLoading(droneCode, updatedItems));
-        }
-
-        if(!newItems.isEmpty()) {
-            checkSavingResult(loadingDAO.batchCreateLoading(droneCode, newItems));
-        }
-
-        stateDTO.setLoadedWeight(loadedWeight);
-
-        int lightestMedication = medicationDAO.findLightestWeight();
-        if (stateDTO.getWeightLimit() - loadedWeight >= lightestMedication) {
-            stateDTO.setState(LOADING.name());
-        } else {
-            stateDTO.setState(LOADED.name());
-        }
-        checkSavingResult(droneDAO.updateDroneState(stateDTO));
     }
 
     @Override
     public DroneStateDTO loadLoadingDroneState(final String droneCode) {
-       DroneStateDTO dto = droneDAO.loadDroneState(droneCode);
-       dto.setLoadedMedications(loadingDAO.getLoadedMedications(droneCode));
-       return dto;
+        DroneStateDTO dto = droneDAO.loadDroneState(droneCode);
+        dto.setLoadedMedications(loadingDAO.getLoadedMedications(droneCode));
+        log.debug("loadLoadingDroneState# dto = {}", dto);
+        return dto;
     }
 
     @Override
@@ -119,15 +93,42 @@ public class LoadingServiceImpl implements LoadingService {
             dto.setLoadedWeight(0);
             dto.setState(DELIVERED.name());
             droneDAO.updateDroneState(dto);
+            log.debug("delivered# state = {}", dto);
         } catch (Exception e) {
             throw new LoadingException("Some error happened during delivery");
         }
         return true;
     }
 
+    private void saveData(
+            final String droneCode,
+            final DroneStateDTO stateDTO,
+            final List<LoadingItem> newItems,
+            final List<LoadingItem> updatedItems,
+            final int loadedWeight) throws LoadingException {
+        if (!updatedItems.isEmpty()) {
+            checkSavingResult(loadingDAO.batchUpdateLoading(droneCode, updatedItems));
+        }
+
+        if (!newItems.isEmpty()) {
+            checkSavingResult(loadingDAO.batchCreateLoading(droneCode, newItems));
+        }
+
+        stateDTO.setLoadedWeight(loadedWeight);
+
+        int lightestMedication = medicationDAO.findLightestWeight();
+        if (stateDTO.getWeightLimit() - loadedWeight >= lightestMedication) {
+            stateDTO.setState(LOADING.name());
+        } else {
+            stateDTO.setState(LOADED.name());
+        }
+        log.debug("loadDrone# stateDTO updated = {}", stateDTO);
+        checkSavingResult(droneDAO.updateDroneState(stateDTO));
+    }
+
     private void checkIfDroneReadyForLoading(final DroneStateDTO stateDTO) throws LoadingException {
         StateEnum state = StateEnum.valueOf(stateDTO.getState());
-        if (state != LOADING || stateDTO.getBatteryLevel() < batteryLimit){
+        if (state != LOADING || stateDTO.getBatteryLevel() < batteryLimit) {
             throw new LoadingException("Drone is not ready for loading");
         }
     }

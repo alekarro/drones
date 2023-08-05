@@ -1,10 +1,11 @@
 package org.musala.drones.api.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.musala.drones.api.dto.CodeDTO;
 import org.musala.drones.api.dto.LoadingDTO;
 import org.musala.drones.api.dto.LoadingException;
-import org.musala.drones.api.dto.SingleResultDTO;
+import org.musala.drones.api.dto.ResultDTO;
 import org.musala.drones.api.service.LoadingService;
 import org.musala.drones.api.validation.ValidationUtils;
 import org.springframework.http.HttpStatus;
@@ -15,38 +16,35 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/loading")
+@RequiredArgsConstructor
 public class LoadingController {
     private final LoadingService loadingService;
 
-    public LoadingController(LoadingService loadingService) {
-        this.loadingService = loadingService;
-    }
-
-    @PostMapping("")
-    public SingleResultDTO loading(@Valid @RequestBody LoadingDTO loading) {
+    @PostMapping
+    public ResultDTO loading(@Valid @RequestBody LoadingDTO loading) {
         try {
-            return new SingleResultDTO(loadingService.loadDrone(loading));
+            return new ResultDTO(loadingService.loadDrone(loading));
         } catch (LoadingException e) {
-            return new SingleResultDTO(false, e.getMessage());
+            return new ResultDTO(false, e.getMessage());
         }
     }
 
-    @GetMapping("")
-    public SingleResultDTO getLoadedItems(@Valid @RequestBody CodeDTO codeDTO) {
-        return new SingleResultDTO(loadingService.loadLoadingDroneState(codeDTO.getCode()));
+    @GetMapping
+    public ResultDTO getLoadedItems(@Valid @RequestBody CodeDTO codeDTO) {
+        return new ResultDTO(loadingService.loadLoadingDroneState(codeDTO.getCode()));
     }
 
-    @GetMapping ("/available-drones")
-    public SingleResultDTO getAvailableDrones() {
-        return new SingleResultDTO(loadingService.getAvailableDrones());
+    @GetMapping("/available-drones")
+    public ResultDTO getAvailableDrones() {
+        return new ResultDTO(loadingService.getAvailableDrones());
     }
 
     @PostMapping("/delivered")
-    public SingleResultDTO delivered(@Valid @RequestBody CodeDTO codeDTO) {
+    public ResultDTO delivered(@Valid @RequestBody CodeDTO codeDTO) {
         try {
-            return new SingleResultDTO(loadingService.delivered(codeDTO.getCode()));
+            return new ResultDTO(loadingService.delivered(codeDTO.getCode()));
         } catch (LoadingException e) {
-            return new SingleResultDTO(false, e.getMessage());
+            return new ResultDTO(false, e.getMessage());
         }
     }
 

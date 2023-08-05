@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface LoadingService {
     boolean loadDrone(LoadingDTO loading) throws LoadingException;
+
     DroneStateDTO loadLoadingDroneState(final String droneCode);
+
     List<DroneStateDTO> getAvailableDrones();
+
     boolean delivered(final String droneCode) throws LoadingException;
 }

@@ -17,7 +17,9 @@ import static java.lang.annotation.ElementType.FIELD;
 @Documented
 public @interface EnumValidator {
     Class<? extends Enum<?>> enumClass();
+
     String message() default "Enum value is not valid";
+
     boolean canBeEmpty() default false;
 
     Class<?>[] groups() default {};
