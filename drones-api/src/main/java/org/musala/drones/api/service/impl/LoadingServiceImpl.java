@@ -127,9 +127,13 @@ public class LoadingServiceImpl implements LoadingService {
     }
 
     private void checkIfDroneReadyForLoading(final DroneStateDTO stateDTO) throws LoadingException {
+        if (stateDTO == null) {
+            throw new LoadingException("Drone is absent; drone = " + stateDTO.getSerialNumber());
+        }
+
         StateEnum state = StateEnum.valueOf(stateDTO.getState());
         if (state != LOADING || stateDTO.getBatteryLevel() < batteryLimit) {
-            throw new LoadingException("Drone is not ready for loading");
+            throw new LoadingException("Drone is not ready for loading; drone = " + stateDTO.getSerialNumber());
         }
     }
 
@@ -150,11 +154,11 @@ public class LoadingServiceImpl implements LoadingService {
     ) throws LoadingException {
         Medication medication = medications.get(item.getMedicationCode());
         if (medication == null) {
-            throw new LoadingException("Unknown medication");
+            throw new LoadingException("Unknown medication; medication = " + item.getMedicationCode());
         }
         loadedWeight += (item.getQuantity() * medication.getWeight());
         if (loadedWeight > stateDTO.getWeightLimit()) {
-            throw new LoadingException("Weight limit exceeded; limit = " + stateDTO.getWeightLimit());
+            throw new LoadingException("Weight limit exceeded; limit = " + stateDTO.getWeightLimit() + "; drone = " + stateDTO.getSerialNumber());
         }
         LoadingItem existedItem = loadingMedicationItems.get(item.getMedicationCode());
         if (existedItem == null) {

@@ -45,7 +45,7 @@ public class DroneServiceImpl implements DroneService {
     public boolean updateDroneState(final DroneStateDTO dto) throws WrongStateException {
         DroneStateDTO existingState = droneDAO.loadDroneState(dto.getSerialNumber());
         if (existingState == null) {
-            throw new WrongStateException("Drone does not exist");
+            throw new WrongStateException("Drone does not exist; drone = " + dto.getSerialNumber());
         }
         int batteryLevel = dto.getBatteryLevel() != null ? dto.getBatteryLevel()
                 : existingState.getBatteryLevel() != null ? existingState.getBatteryLevel() : 0;
