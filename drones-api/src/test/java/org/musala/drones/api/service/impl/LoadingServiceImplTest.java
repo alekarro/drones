@@ -51,7 +51,7 @@ class LoadingServiceImplTest {
             "500, LOADING",
             "400, LOADED"
     })
-    void testLoadDrone_creationLoadings(int weightLimit, String resultState) {
+    void testLoadDrone_createLoadingItems(int weightLimit, String resultState) {
         String droneSerialNumber = "number_1";
         List<Medication> medications = createMedications();
         Set<String> medCodes = Set.of(medications.get(0).getCode(), medications.get(1).getCode());
@@ -83,7 +83,7 @@ class LoadingServiceImplTest {
             "500, LOADING",
             "330, LOADED"
     })
-    void testLoadDrone_updateLoadings(int weightLimit, String resultState) {
+    void testLoadDrone_updateLoadingItems(int weightLimit, String resultState) {
         String droneSerialNumber = "number_1";
         List<Medication> medications = createMedications();
         Set<String> medCodes = Set.of(medications.get(0).getCode(), medications.get(1).getCode());

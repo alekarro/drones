@@ -10,14 +10,10 @@ import org.musala.drones.api.model.ModelEnum;
 import org.musala.drones.api.model.StateEnum;
 import org.musala.drones.api.validation.EnumValidator;
 import org.musala.drones.api.validation.WeightLimitValidator;
-import org.springframework.beans.factory.annotation.Value;
 
 @Getter
 @Setter
 public class DroneDTO {
-    @Value("${drone.weight-limit}")
-    private int maxWeight;
-
     @NotEmpty
     @Size(min = 5, max = 100, message = "Serial number should have at least 5 characters and max 100 characters")
     private String serialNumber;
