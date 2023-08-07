@@ -33,12 +33,12 @@ public class DroneDAOImplTest {
         when(jdbcTemplate.update(any(PreparedStatementCreator.class))).thenReturn(1);
 
         boolean res = droneDAO.updateDroneState(stateDTO);
+
+        assertTrue(res);
         verify(jdbcTemplate, times(1)).update(queryCaptor.capture());
         String queryString = queryCaptor.getValue().toString();
         assertTrue(queryString.contains("update drone_state set  state = ?, battery_level = ?, loaded_weight = ? where serial_number = ?"));
         assertTrue(queryString.contains("LOADING, 50, 100, number_1"));
-
-        assertTrue(res);
     }
 
     private DroneStateDTO createStateDTO() {
