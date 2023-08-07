@@ -31,7 +31,11 @@ public class LoadingController {
 
     @GetMapping
     public ResultDTO getLoadedItems(@Valid @RequestBody CodeDTO codeDTO) {
-        return new ResultDTO(loadingService.loadLoadingDroneState(codeDTO.getCode()));
+        try {
+            return new ResultDTO(loadingService.loadLoadingDroneState(codeDTO.getCode()));
+        } catch (LoadingException e) {
+            return new ResultDTO(false, e.getMessage());
+        }
     }
 
     @GetMapping("/available-drones")

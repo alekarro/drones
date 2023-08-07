@@ -68,8 +68,11 @@ public class LoadingServiceImpl implements LoadingService {
     }
 
     @Override
-    public DroneStateDTO loadLoadingDroneState(final String droneCode) {
+    public DroneStateDTO loadLoadingDroneState(final String droneCode) throws LoadingException {
         DroneStateDTO dto = droneDAO.loadDroneState(droneCode);
+        if (dto == null) {
+            throw new LoadingException("Drone is absent, drone = " + droneCode);
+        }
         dto.setLoadedMedications(loadingDAO.getLoadedMedications(droneCode));
         log.debug("loadLoadingDroneState# dto = {}", dto);
         return dto;

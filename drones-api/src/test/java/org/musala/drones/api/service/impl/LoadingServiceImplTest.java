@@ -1,6 +1,5 @@
 package org.musala.drones.api.service.impl;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -65,11 +64,11 @@ class LoadingServiceImplTest {
 
         boolean res = testedService.loadDrone(createLoadingDTO(droneSerialNumber, items));
 
-        Assertions.assertTrue(res);
-        Assertions.assertEquals(50, stateDTO.getBatteryLevel());
-        Assertions.assertEquals(resultState, stateDTO.getState());
-        Assertions.assertEquals(400, stateDTO.getLoadedWeight());
-        Assertions.assertEquals(weightLimit, stateDTO.getWeightLimit());
+        assertTrue(res);
+        assertEquals(50, stateDTO.getBatteryLevel());
+        assertEquals(resultState, stateDTO.getState());
+        assertEquals(400, stateDTO.getLoadedWeight());
+        assertEquals(weightLimit, stateDTO.getWeightLimit());
         verify(droneDAO, times(1)).loadDroneState(droneSerialNumber);
         verify(loadingDAO, times(1)).getLoadingItems(droneSerialNumber);
         verify(medicationDAO, times(1)).getMedications(medCodes);
@@ -98,11 +97,11 @@ class LoadingServiceImplTest {
 
         boolean res = testedService.loadDrone(createLoadingDTO(droneSerialNumber, items));
 
-        Assertions.assertTrue(res);
-        Assertions.assertEquals(50, stateDTO.getBatteryLevel());
-        Assertions.assertEquals(resultState, stateDTO.getState());
-        Assertions.assertEquals(320, stateDTO.getLoadedWeight());
-        Assertions.assertEquals(weightLimit, stateDTO.getWeightLimit());
+        assertTrue(res);
+        assertEquals(50, stateDTO.getBatteryLevel());
+        assertEquals(resultState, stateDTO.getState());
+        assertEquals(320, stateDTO.getLoadedWeight());
+        assertEquals(weightLimit, stateDTO.getWeightLimit());
         verify(droneDAO, times(1)).loadDroneState(droneSerialNumber);
         verify(loadingDAO, times(1)).getLoadingItems(droneSerialNumber);
         verify(medicationDAO, times(1)).getMedications(medCodes);
@@ -120,7 +119,57 @@ class LoadingServiceImplTest {
         Exception exception = assertThrows(LoadingException.class, ()
                 -> testedService.loadDrone(createLoadingDTO(droneSerialNumber, null)));
 
-        Assertions.assertTrue(exception.getMessage().startsWith("Drone is not ready for loading; drone"));
+        assertTrue(exception.getMessage().startsWith("Drone is not ready for loading; drone"));
+    }
+
+    @Test
+    void testLoadDrone_LoadingExceptionWeightExceeds() {
+        String droneSerialNumber = "number_1";
+        List<Medication> medications = createMedications();
+        Set<String> medCodes = Set.of(medications.get(0).getCode(), medications.get(1).getCode());
+        List<LoadingItem> items = createLoadingItems(droneSerialNumber, medications, 3, 5);
+        DroneStateDTO stateDTO = createStateDTO(50, 0);
+        when(droneDAO.loadDroneState(droneSerialNumber)).thenReturn(stateDTO);
+        when(medicationDAO.getMedications(medCodes)).thenReturn(medications);
+
+        Exception exception = assertThrows(LoadingException.class, ()
+                -> testedService.loadDrone(createLoadingDTO(droneSerialNumber, items)));
+
+        assertTrue(exception.getMessage().startsWith("Weight limit exceeded; limit"));
+    }
+
+    @Test
+    void testLoadLoadingDroneState() {
+        String droneSerialNumber = "number_1";
+        DroneStateDTO stateDTO = createStateDTO(500, 160);
+        when(droneDAO.loadDroneState(droneSerialNumber)).thenReturn(stateDTO);
+
+        DroneStateDTO resultState = testedService.loadLoadingDroneState(droneSerialNumber);
+
+        assertEquals(stateDTO, resultState);
+        verify(droneDAO, times(1)).loadDroneState(droneSerialNumber);
+        verify(loadingDAO, times(1)).getLoadedMedications(droneSerialNumber);
+    }
+
+    @Test
+    void testLoadLoadingDroneState_Exception() {
+        String droneSerialNumber = "number_1";
+        when(droneDAO.loadDroneState(droneSerialNumber)).thenReturn(null);
+
+        Exception exception = assertThrows(LoadingException.class, ()
+                -> testedService.loadLoadingDroneState(droneSerialNumber));
+
+        assertTrue(exception.getMessage().startsWith("Drone is absent, drone"));
+    }
+
+    @Test
+    void testDelivered() {
+        String droneSerialNumber = "number_1";
+
+        boolean res = testedService.delivered(droneSerialNumber);
+        assertTrue(res);
+        verify(loadingDAO, times(1)).deleteDroneLoadings(droneSerialNumber);
+        verify(droneDAO, times(1)).updateDroneState(any());
     }
 
     private List<Medication> createMedications() {
