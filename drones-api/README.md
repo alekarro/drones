@@ -42,14 +42,13 @@ Constraints:
 ## build and run tests
 Before starting the application a few tools must be installed in your OS:
 1. JDK version 11 or later 
-2. Maven version 3.8 or later
-3. Docker + Docker-compose version 4.20 or later 
+2. Docker + Docker-compose version 4.20 or later 
 -------------------
 
 Steps to build:
 1. open terminal (cmd and so on)
 2. go to folder ../drones-api 
-3. run **mvn clean package**
+3. run **./mvnw clean package**
 
 If code is in compilable state and tests passed,folder **target** will be created with drones-api-1.0.jar
 
