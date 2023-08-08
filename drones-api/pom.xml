@@ -16,6 +16,10 @@
     <name>Drones Rest API logic</name>
     <packaging>jar</packaging>
 
+    <properties>
+        <start-class>org.musala.drones.api.DronesApiApplication</start-class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,6 +66,10 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.dkanejs.maven.plugins</groupId>
+            <artifactId>docker-compose-maven-plugin</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -69,6 +77,28 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>org.musala.drones.api.DronesApiApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.dkanejs.maven.plugins</groupId>
+                <artifactId>docker-compose-maven-plugin</artifactId>
+                <version>${docker-compose.version}</version>
+                <configuration>
+                    <composeFile>${project.basedir}/docker-compose.yml</composeFile>
+                    <ignorePullFailures>true</ignorePullFailures>
+                    <removeVolumes>true</removeVolumes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

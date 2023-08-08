@@ -68,7 +68,7 @@ public class LoadingServiceImpl implements LoadingService {
     }
 
     @Override
-    public DroneStateDTO loadLoadingDroneState(final String droneCode) throws LoadingException {
+    public DroneStateDTO getLoading(final String droneCode) throws LoadingException {
         DroneStateDTO dto = droneDAO.loadDroneState(droneCode);
         if (dto == null) {
             throw new LoadingException("Drone is absent, drone = " + droneCode);
@@ -131,7 +131,7 @@ public class LoadingServiceImpl implements LoadingService {
 
     private void checkIfDroneReadyForLoading(final DroneStateDTO stateDTO) throws LoadingException {
         if (stateDTO == null) {
-            throw new LoadingException("Drone is absent; drone = " + stateDTO.getSerialNumber());
+            throw new LoadingException("Drone is absent");
         }
 
         StateEnum state = StateEnum.valueOf(stateDTO.getState());

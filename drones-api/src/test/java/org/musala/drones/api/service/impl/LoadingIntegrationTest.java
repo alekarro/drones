@@ -81,7 +81,7 @@ class LoadingIntegrationTest extends AbstractServiceIntegrationTest {
     }
 
     private void checkDroneState(String resState, int resWeight, int resItemsNumber) {
-        DroneStateDTO stateDTO = loadingService.loadLoadingDroneState(drone.getSerialNumber());
+        DroneStateDTO stateDTO = loadingService.getLoading(drone.getSerialNumber());
         Assertions.assertEquals(drone.getBatteryLevel(), stateDTO.getBatteryLevel());
         Assertions.assertEquals(resState, stateDTO.getState());
         Assertions.assertEquals(resWeight, stateDTO.getLoadedWeight());

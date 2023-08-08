@@ -5,28 +5,19 @@ import lombok.RequiredArgsConstructor;
 import org.musala.drones.api.dto.ResultDTO;
 import org.musala.drones.api.model.Medication;
 import org.musala.drones.api.service.MedicationService;
-import org.musala.drones.api.validation.ValidationUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/medication")
 @RequiredArgsConstructor
-public class MedicationController {
+public class MedicationController implements BaseController {
 
     private final MedicationService medicationService;
-
     @PostMapping
     public ResultDTO createOrUpdateDrone(@Valid @RequestBody Medication medication) {
-        return new ResultDTO(medicationService.createOrUpdateMedication(medication));
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return ValidationUtils.handleValidationExceptions(ex);
+        return serviceCall(() -> medicationService.createOrUpdateMedication(medication));
     }
 }

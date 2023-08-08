@@ -1,6 +1,13 @@
 package org.musala.drones.api.model;
 
 public enum ModelEnum {
-    //Lightweight, Middleweight, Cruiserweight, Heavyweight
-    LIGHTWEIGHT, MIDDLEWEIGHT, CRUISERWEIGHT, HEAVYWEIGHT
+    LIGHTWEIGHT("Lightweight"),
+    MIDDLEWEIGHT("Middleweight"),
+    CRUISERWEIGHT("Cruiserweight"),
+    HEAVYWEIGHT("Heavyweight");
+
+    ModelEnum(String readableName) {
+        this.readableName = readableName;
+    }
+    private final String readableName;
 }

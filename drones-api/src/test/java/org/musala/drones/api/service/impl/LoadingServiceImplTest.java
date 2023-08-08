@@ -144,7 +144,7 @@ class LoadingServiceImplTest {
         DroneStateDTO stateDTO = createStateDTO(500, 160);
         when(droneDAO.loadDroneState(droneSerialNumber)).thenReturn(stateDTO);
 
-        DroneStateDTO resultState = testedService.loadLoadingDroneState(droneSerialNumber);
+        DroneStateDTO resultState = testedService.getLoading(droneSerialNumber);
 
         assertEquals(stateDTO, resultState);
         verify(droneDAO, times(1)).loadDroneState(droneSerialNumber);
@@ -157,7 +157,7 @@ class LoadingServiceImplTest {
         when(droneDAO.loadDroneState(droneSerialNumber)).thenReturn(null);
 
         Exception exception = assertThrows(LoadingException.class, ()
-                -> testedService.loadLoadingDroneState(droneSerialNumber));
+                -> testedService.getLoading(droneSerialNumber));
 
         assertTrue(exception.getMessage().startsWith("Drone is absent, drone"));
     }
