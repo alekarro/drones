@@ -1,8 +1,6 @@
-## drones-api
+# drones-api
 
-:scroll: **START**
-
-### Introduction
+## Introduction
 
 There is a major new technology that is destined to be a disruptive force in the field of transportation: **the drone**. 
 Just as the mobile phone allowed developing countries to leapfrog older technologies for personal communication, 
@@ -41,11 +39,11 @@ Constraints:
 - A drone cannot being in LOADING state if the battery level is **below 25%**;
 
 
-### build and run tests
+## build and run tests
 Before starting the application a few tools must be installed in your OS:
 1. JDK version 11 or later 
 2. Maven version 3.8 or later
-3. Docker + docker-compose version 4.20 or later 
+3. Docker + Docker-compose version 4.20 or later 
 -------------------
 
 Steps to build:
@@ -56,7 +54,7 @@ Steps to build:
 If code is in compilable state and tests passed,folder **target** will be created with drones-api-1.0.jar
 
 
-### run
+## deploy
 from the same folder ../drones-api run command
 **docker-compose up --build**
 
@@ -67,7 +65,7 @@ Two containers will be created in Docker -
 The api is ready for using, base URL is **https://localhost:8080**
 
 
-### API
+## API
 List of api services:\
 _in test and dev mode domainname is localhost_
 
@@ -304,5 +302,3 @@ _Response:_\
 **Examples:**\
 in folder ../drones-api/src/test/resources there are **.rest** files with requests for testing.  
 
-
-:scroll: **END**
