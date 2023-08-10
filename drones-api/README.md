@@ -41,7 +41,7 @@ Constraints:
 
 ## build and run tests
 Before starting the application a few tools must be installed in your OS:
-1. JDK version 11 or later 
+1. JDK version 17 or later 
 2. Docker + Docker-compose version 4.20 or later 
 -------------------
 
