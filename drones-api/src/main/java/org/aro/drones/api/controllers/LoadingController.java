@@ -30,7 +30,7 @@ public class LoadingController implements BaseController {
     }
 
     @PostMapping("/delivered")
-    public ResultDTO delivered(@Valid @RequestBody CodeDTO codeDTO) {
+    public ResultDTO delivery(@Valid @RequestBody CodeDTO codeDTO) {
         return serviceCall(() -> loadingService.delivered(codeDTO.getCode()));
     }
 }

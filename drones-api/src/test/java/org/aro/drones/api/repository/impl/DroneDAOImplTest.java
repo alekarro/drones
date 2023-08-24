@@ -1,5 +1,6 @@
 package org.aro.drones.api.repository.impl;
 
+import org.aro.drones.api.dto.DroneDTO;
 import org.aro.drones.api.dto.DroneStateDTO;
 import org.aro.drones.api.model.StateEnum;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,30 @@ public class DroneDAOImplTest {
         assertTrue(queryString.contains("LOADING, 50, 100, number_1"));
     }
 
+    @Test
+    void testCreateDrone() {
+        DroneDTO droneDTO = createDroneDTO();
+        when(jdbcTemplate.update(any(), any(), any(), any())).thenReturn(1);
+        boolean res = droneDAO.createDrone(droneDTO);
+        assertTrue(res);
+    }
+
+    @Test
+    void testCreateDroneState() {
+        DroneStateDTO stateDTO = createStateDTO();
+        when(jdbcTemplate.update(any(), any(), any(), any(), any())).thenReturn(1);
+        boolean res = droneDAO.createDroneState(stateDTO);
+        assertTrue(res);
+    }
+
+    @Test
+    void testUpdateDrone() {
+        DroneDTO droneDTO = createDroneDTO();
+        when(jdbcTemplate.update(any(PreparedStatementCreator.class))).thenReturn(1);
+        boolean res = droneDAO.updateDrone(droneDTO);
+        assertTrue(res);
+    }
+
     private DroneStateDTO createStateDTO() {
         DroneStateDTO stateDTO = new DroneStateDTO();
         stateDTO.setSerialNumber("number_1");
@@ -48,6 +73,15 @@ public class DroneDAOImplTest {
         stateDTO.setBatteryLevel(50);
         stateDTO.setWeightLimit(500);
         stateDTO.setLoadedWeight(100);
+        return stateDTO;
+    }
+
+    private DroneDTO createDroneDTO() {
+        DroneDTO stateDTO = new DroneDTO();
+        stateDTO.setSerialNumber("number_1");
+        stateDTO.setState(StateEnum.LOADING.name());
+        stateDTO.setBatteryLevel(50);
+        stateDTO.setWeightLimit(500);
         return stateDTO;
     }
 }

@@ -17,7 +17,7 @@ public class MedicationController implements BaseController {
 
     private final MedicationService medicationService;
     @PostMapping
-    public ResultDTO createOrUpdateDrone(@Valid @RequestBody Medication medication) {
+    public ResultDTO createOrUpdateMedication(@Valid @RequestBody Medication medication) {
         return serviceCall(() -> medicationService.createOrUpdateMedication(medication));
     }
 }
